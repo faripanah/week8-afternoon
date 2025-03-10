@@ -19,7 +19,10 @@ const EditPropertyPage = () => {
   const [zipCode, setZipCode] = useState("");
   const [squareFeet, setSquareFeet] = useState("");
   const [yearBuilt, setYearBuilt] = useState("");
+  
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
 
   const navigate = useNavigate();
 
@@ -29,7 +32,7 @@ const EditPropertyPage = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-        
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(property),
       });
