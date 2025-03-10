@@ -16,11 +16,12 @@ const App = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     return user && user.token ? true : false;
   });
+  
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+      <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} />

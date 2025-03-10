@@ -1,34 +1,29 @@
+import React from "react";
 import useField from "../hooks/useField";
 import useSignup from "../hooks/useSignup";
-import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
-  const navigate = useNavigate();
-  const name = useField("text");  
+const Signup = ({ setIsAuthenticated }) => {
+  const { handleSignup } = useSignup(setIsAuthenticated);
+
+  const name = useField("text");
   const email = useField("email");
   const password = useField("password");
-  const phoneNumber = useField("text");
+  const phoneNumber = useField("tel");
   const gender = useField("text");
   const dateOfBirth = useField("date");
   const membershipStatus = useField("text");
 
-  const { signup, error } = useSignup("/api/users/signup");
-
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    await signup({
+    handleSignup({
+      name: name.value,
       email: email.value,
       password: password.value,
-      name: name.value,
-      phone_number: phoneNumber.value,
+      phoneNumber: phoneNumber.value,
       gender: gender.value,
-      date_of_birth: dateOfBirth.value,
-      membership_status: membershipStatus.value,
+      dateOfBirth: dateOfBirth.value,
+      membershipStatus: membershipStatus.value,
     });
-    if (!error) {
-      console.log("success");
-      navigate("/");
-    }
   };
 
   return (
@@ -49,7 +44,7 @@ const Signup = () => {
         <input {...dateOfBirth} />
         <label>Membership Status:</label>
         <input {...membershipStatus} />
-        <button>Sign up</button>
+        <button type="submit">Sign up</button>
       </form>
     </div>
   );
