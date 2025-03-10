@@ -2,6 +2,7 @@ const connectDB = require("./config/db");
 const cors = require('cors');
 const express = require("express");
 const propertyRouter = require("./routes/propertyRouter");
+const userRouter = require("./routes/userRouter");
 const {requestLogger,unknownEndpoint,errorHandler} = require("./middleware/customMiddleware");
 require("dotenv").config();
 // express app
@@ -21,6 +22,7 @@ app.get("/", (req, res) => res.send("API Running!"));
 
 
 app.use("/api/properties", propertyRouter);
+app.use("/api/users", userRouter);
 
 
 
