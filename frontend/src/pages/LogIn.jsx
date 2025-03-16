@@ -2,7 +2,7 @@ import useField from "../hooks/useField";
 import useLogin from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = () => {
   const navigate = useNavigate();
   const email = useField("email");
   const password = useField("password");
@@ -11,11 +11,9 @@ const Login = ({ setIsAuthenticated }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const res = await login({ email: email.value, password: password.value });
-    if (res && !error) {
-      console.log("Login success", res);
-      localStorage.setItem("user", JSON.stringify(res));
-      setIsAuthenticated(true);
+    await login({ email: email.value, password: password.value });
+    if (!error) {
+      console.log("success");
       navigate("/");
     }
   };
@@ -29,7 +27,7 @@ const Login = ({ setIsAuthenticated }) => {
         <input {...email} />
         <label>Password:</label>
         <input {...password} />
-        <button>Log in</button>
+        <button>Sign up</button>
       </form>
     </div>
   );

@@ -1,29 +1,35 @@
-import React from "react";
 import useField from "../hooks/useField";
 import useSignup from "../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
 
 const Signup = ({ setIsAuthenticated }) => {
-  const { handleSignup } = useSignup(setIsAuthenticated);
-
-  const name = useField("text");
+  const navigate = useNavigate();
+  const name = useField("text");  
   const email = useField("email");
   const password = useField("password");
-  const phoneNumber = useField("tel");
+  const phoneNumber = useField("text");
   const gender = useField("text");
   const dateOfBirth = useField("date");
   const membershipStatus = useField("text");
 
-  const handleFormSubmit = (e) => {
+  const { signup, error } = useSignup("/api/users/signup");
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    handleSignup({
-      name: name.value,
+    await signup({
       email: email.value,
       password: password.value,
-      phoneNumber: phoneNumber.value,
+      name: name.value,
+      phone_number: phoneNumber.value,
       gender: gender.value,
-      dateOfBirth: dateOfBirth.value,
-      membershipStatus: membershipStatus.value,
+      date_of_birth: dateOfBirth.value,
+      membership_status: membershipStatus.value,
     });
+    if (!error && userData && userData.token) {
+      localStorage.setItem("user", JSON.stringify(userData)); // Store token
+      setIsAuthenticated(true); // Update auth state
+      navigate("/");
+    }
   };
 
   return (
@@ -44,7 +50,7 @@ const Signup = ({ setIsAuthenticated }) => {
         <input {...dateOfBirth} />
         <label>Membership Status:</label>
         <input {...membershipStatus} />
-        <button type="submit">Sign up</button>
+        <button>Sign up</button>
       </form>
     </div>
   );
